@@ -1,6 +1,8 @@
 {
   "permissions": {
     "allow": [
+      "Edit(path:~/.grow/**)",
+      "Write(path:~/.grow/**)",
       "WebSearch",
       "WebFetch(domain:anthropic.com)",
       "WebFetch(domain:docs.anthropic.com)",

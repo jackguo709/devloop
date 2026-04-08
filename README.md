@@ -80,9 +80,9 @@ Then run `/grow` in Claude Code.
 
 First run is onboarding: a quick setup, a full scan of your work, what it found (including your biggest blind spot), a few reflective questions, and your competency map across all seven domains. Then it delivers your first recommendation on the spot.
 
-## Competency Framework
+## Competency Map
 
-Seven domains. Five levels each (Foundations through Mastery). Grow assesses where you are — crediting your decisions, not AI-generated code — and targets the gap that matters most.
+Seven domains. Five levels each. Grow assesses where you are and targets the gap that matters most.
 
 - **AI Steering** — Getting AI to do what you want, and knowing when not to use it.
 - **Building & Architecture** — Making things that work, hold together, and don't collapse.

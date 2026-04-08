@@ -1,10 +1,18 @@
 # Onboarding
 
-First-run only. Builds the user's profile and ends with a first recommendation.
+First-run only. Builds the user's profile and ends with a first recommendation. Follow the following steps precisely.
+
+## Desktop session paths
+
+- macOS: `~/Library/Application Support/Claude/local-agent-mode-sessions/`
+- Windows: `%APPDATA%/Claude/local-agent-mode-sessions/`
+- Linux: `~/.config/claude/local-agent-mode-sessions/`
+
+Each session has `local_{id}.json` metadata and `audit.jsonl` conversation log.
 
 ## Step 1: Setup
 
-Use AskUserQuestion to collect. Note: AskUserQuestion requires a minimum of 2 options per question.
+Collect via AskUserQuestion (minimum 2 options per question):
 
 - "What's your name?"
 - Background: engineer, PM, designer, solo founder, or something else?
@@ -12,89 +20,102 @@ Use AskUserQuestion to collect. Note: AskUserQuestion requires a minimum of 2 op
 - "I can look at your work across all projects on this machine for broader patterns. Everything stays local. Enable cross-project scanning?"
 - "Share any product URLs, GitHub profiles, or Twitter/X handles if you want deeper analysis. Otherwise skip."
 
-## Step 2: Scan
+Auto-detect the user's full AI and engineering stack, tools, workflow, and dev environment from the filesystem. Then ask follow-up questions to cover gaps — new tools and services emerge almost daily, so auto-detection will miss things.
 
-Dispatch parallel Sonnet subagents. Each agent reads [competency-map.md](competency-map.md) for domains and concepts, SKILL.md for the AI Attribution section and behavior concepts. Scan deeply and thoroughly. Log ALL observations for ANY concept or domain that can be gleaned from the source. Do not assign levels.
+## Step 2: Scan permissions
 
-Every observation must be grounded in something concrete from the source. No fabrication, no hypotheticals, no inferences from absence. Only log high-confidence observations — if the evidence is too thin to be meaningful, skip it.
+Subagents need access to session logs and observation files. Detect the OS and ask to merge these permissions into `.claude/settings.local.json`:
 
-**AI attribution matters.** Most code is AI-generated. When logging observations, distinguish human decisions (captured in session conversations, design docs, git commit messages) from AI-generated implementation. Flag which observations come from session-level intent vs. code-level patterns. See the AI Attribution section in SKILL.md.
+```
+Read(path:~/.grow/**)
+Write(path:~/.grow/**)
+Read(path:~/.claude/**)
+Bash(path:~/.claude/**)
+Glob(path:~/.claude/**)
+Grep(path:~/.claude/**)
+```
 
-Save observations as detailed in SKILL.md.
+Plus `Read`, `Bash`, `Glob`, `Grep` for the Desktop sessions path.
 
-**Sources:**
+## Step 3: Scan
 
-- **CLI sessions:** `~/.claude/projects/` — session JSONL files. Each subdirectory is a project (path with `/` replaced by `-`). If cross-project scanning is disabled, scan only the current project.
+Dispatch one Sonnet subagent per domain. Give each subagent:
 
-- **Desktop sessions:** `~/Library/Application Support/Claude/local-agent-mode-sessions/` (macOS), `$APPDATA/Claude/local-agent-mode-sessions/` (Windows), `~/.config/claude/local-agent-mode-sessions/` (Linux). Each session has `local_{id}.json` metadata and `audit.jsonl` conversation log. Skip silently if path doesn't exist.
+- The relevant domain section from [competency-map.md](references/competency-map.md)
+- ALL scan inputs listed below. Do not predict which source has signal for which domain. A desktop or CLI session might contain rich human intent across any domain.
+
+Each subagent saves observations directly to its domain's observation file using the format in SKILL.md. Every observation must be grounded in concrete evidence. No fabrication or hypotheticals. Skip observations where the evidence is too thin to be meaningful.
+
+Assume all code is AI-generated. Credit what the human did, not the implementation. Conversation and user input are ground truth; code artifacts alone are weak signal.
+
+**Scan inputs**:
+
+- **CLI sessions:** `~/.claude/projects/` — session JSONL files. Each subdirectory is a project (path with `/` replaced by `-`). If cross-project scanning is disabled, scan only the current project. These are high-signal for human intent.
+
+- **Desktop sessions:** OS-specific path defined above. High-signal for human intent.
 
 - **Project codebases:** Discover paths from CLI session directory slugs. For each project that still exists on disk, scan git history, config files, and code.
 
-- **Web profiles (only if URLs provided):** WebFetch product URLs, WebSearch GitHub and Twitter/X profiles.
+- **Web profiles (only if URLs provided):** product URLs, GitHub and Twitter/X profiles.
 
-Wait for all agents to return.
+## Step 4: Quality filter
 
-## Step 3: Present and calibrate
+Dispatch parallel Haiku subagents to review the observation files. For each observation, score it 1-100 on signal strength: does this reveal genuine competence or a genuine gap, or is it just "did a reasonable thing"? Remove observations scoring below 80. Merge duplicates that describe the same evidence.
 
-Read all observation files. Identify gaps: which domains lack signal, which profile fields (patterns, behavior, readiness) are incomplete.
+## Step 5: Present and calibrate
 
-**1. Show the most striking finding.** Use their name. Lead with the highest-value or most surprising observation from the scan. 1-2 sentences. This is the hook.
+Read all observation files. The goal is to show the user you understand their situation, surface something they might not have articulated, and give them a chance to correct you.
 
-**2. Ask 0-3 adaptive questions** based on what's missing across domains, behavior, and profile. Choose at runtime. If all fields have sufficient signal, skip to the map.
+**1. Lead with the most striking pattern.** Surface a tension, contradiction, or cross-domain insight from the scan. Not a list of what they've done, but what it means.
 
-**3. Write answers** to the relevant observation files and profile.md.
+- GOOD: "Alex, you spec everything before touching code, and the specs are good. But you've specced 4 projects in 6 months without shipping any to users. The spec is becoming the product instead of the product."
+- BAD: "8 projects in 9 months, all convergent. Pivots deliberately based on real learning."
 
-**4. Show the competency map** with levels derived from all observations (scan + answers) using [competency-map.md](competency-map.md):
+**2. Show the competency map.** For each domain: rate using Level Definitions in [competency-map.md](references/competency-map.md), and add a detailed summary of the level ratings: what's working and what's missing, and what the next level looks like. Be direct.
 
 ```
 Your competency map:
 
-Resilience:           3 — evidence-based pivoting, sustainable pace
-AI Steering:          3 — context engineering, spec-driven development
-Building:             2 — ships working apps, basic patterns
-Security:             2 — env vars, basic auth, no validation yet
-Product & Design:     [Need more data]
-Distribution:         [Need more data]
-Business:             [Need more data]
+Resilience:       1.8 — Direction (2): deliberate pivots, coherent thesis.
+                        Pace (2): ships fast but 47 parallel workstreams
+                        on a product you killed 2 days later.
+                        Persist vs Quit (2): clean kills, but no evidence
+                        of surviving a long traction drought.
+                        Builder Identity (1): tied to current project,
+                        no public identity beyond it.
+
+Product Taste:    1.4 — User Empathy (0): no evidence of talking to users.
+                        Value Clarity (2): precise problem framing.
+                        Design Judgment (2): intentional design system.
+                        Feature Discipline (2): deliberate cuts.
+                        PMF Judgment (1): builds before validating demand.
+
+...
 ```
 
-Each level must cite specific evidence. Never assign a level without justification.
+**3. Ask 0-3 questions** to fill gaps in domains or profile. Skip if signal is sufficient.
 
-**5. Ask: "Does this feel right? What am I missing?"**
+**4. "Does this feel right? Am I missing anything?"**
 
-**6. Update** observation files and profile.md from their response.
+**5.** Update observations from their response if needed. Populate profile.md as defined in SKILL.md, informed by scan observations, user answers, and how they responded to the map.
 
-**7. Synthesize deep patterns** from all observations: cross-domain, cross-project, or longitudinal patterns. Write to profile.md.
+## Step 6: Content permissions and tools
 
-## Step 3.5: Permissions setup
+**Web permissions.** Read [permissions.json](references/permissions.json) and compare against the project's `.claude/settings.local.json`. If missing, ask to add them. If declined, proceed without.
 
-Before searching content, ensure the project has the required web permissions.
+**Optional MCP servers.** Check if these are already installed. For any that aren't, offer to install them to access richer content:
 
-1. Read [permissions.json](permissions.json) to get the list of required permissions.
-2. Read the project's `.claude/settings.local.json` (if it doesn't exist, start with `{"permissions":{"allow":[]}}`)
-3. Compare: find entries in the template that are not already in the project's allow list.
-4. If there are missing entries, show the user: "To search 50+ content sources for your recommendations, I need to add web access permissions to this project's settings. This lets me fetch from sites like simonwillison.net, latent.space, paulgraham.com, and others. OK to proceed?"
-5. On approval, merge the missing entries into the project's allow list (preserve all existing entries) and write the updated `.claude/settings.local.json`.
-6. If the user declines, proceed without — content search will prompt per-domain instead.
+- `arxiv-mcp-server` — search and read research papers
+  `claude mcp add -s user arxiv -- uvx arxiv-mcp-server`
+- `youtube-transcript` — get video transcripts
+  `claude mcp add -s user youtube-transcript -- npx -y @kimtaeyoon83/mcp-server-youtube-transcript`
 
-## Step 4: First recommendation
+## Step 7: First recommendation
 
-Target the single highest-impact gap from the observations. Priority:
-
-1. User's stated focus or challenge (if shared in step 3)
-2. Most striking negative observation
-3. Highest-impact gap given their stage
-
-Run **Find Content** from SKILL.md with this target. Then run **Deliver** from SKILL.md.
-
-If all content search fails, deliver a code-context-only observation using the strongest scan finding.
-
-Append the recommendation to `~/.grow/history.jsonl`.
+Run **Find Content**, **Deliver**, and **Save** from SKILL.md.
 
 ## Edge cases
 
-**Empty project:** CLI and Desktop sessions still provide context. If no sessions exist either, step 3 questions become the primary input.
-
-**User skips all questions:** Proceed with scan-only data.
-
-**User quits mid-onboarding:** Save partial state after each step. On next /grow run, detect incomplete profile and resume.
+- **Empty project:** CLI and Desktop sessions still provide context. If no sessions exist either, step 5 questions become the primary input.
+- **User skips all questions:** Proceed with scan-only data.
+- **User quits mid-onboarding:** Save partial state after each step. Resume on next /grow run.

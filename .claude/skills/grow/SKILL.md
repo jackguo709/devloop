@@ -40,67 +40,59 @@ If `PROFILE_EXISTS=true`:
 
 ---
 
-## AI Attribution
-
-Most code in AI-assisted projects is AI-generated. The assessment must distinguish **human decisions** from **AI-generated implementation**.
-
-**Credit as human signal (high weight):**
-
-- Architecture and tool choices captured in session logs ("let's use X", "move these files to Y")
-- Rejections and corrections ("don't use inline imports", "I see you use 'as any' a lot")
-- Design documents, specs, README-as-spec written before implementation
-- What they chose to build and why (product direction, feature prioritization)
-- How they direct and evaluate AI output (prompting patterns, comprehension checks)
-- Persist/pivot/kill decisions on features and projects
-
-**Credit as deliberate choice, not implementation skill (medium weight):**
-
-- Presence of validation, testing, or security patterns — credit the _decision_ to include them, not the code itself
-- Architecture patterns — credit the structural choice, not the file organization details
-- Tool/library selection — credit evaluating and choosing, not the integration code
-
-**Do not credit (low weight):**
-
-- Implementation details that are common AI defaults (boilerplate, standard patterns)
-- Code quality metrics (line count, type coverage) that reflect AI capability, not human skill
-- Patterns that appear without evidence of intentional choice in session logs
-
-**Where to find human signal:** Session conversation logs are ground truth for intent. Git commit messages, design docs, and PR descriptions capture decisions. The gap between what was asked for and what was produced reveals comprehension.
-
----
-
 ## Find Content
 
-Dispatch 2-3 parallel Sonnet subagents to search for content. Each agent gets a targeted search brief from the targeting step, not a broad category. Refer to [sources.md](sources.md) for the full source catalog, but assign each agent specific sources based on what's most likely to yield results for this topic.
+Two parallel pipelines search for different things. Each pipeline gets 1-2 Sonnet subagents with a tight brief — what to find, where to look, and why it matters for this user. ONLY return content from sources listed in [sources.md](references/sources.md).
 
-Requirements:
+### Pipeline A: Gap-based
 
-- Freshness: prefer last 7 days, last 30 days typical. Older canonical content can win if relevance is high.
-- Quality: must have specifics, real experience, or production evidence. No listicles or fluff.
-- Each agent returns at most 2 results: title, author, source, direct URL, one-paragraph summary, why it matters for THIS user, one surprising detail. Or nothing if no relevant content exists.
-- Keep agents fast: give them a tight scope and stop searching after finding a strong match.
+Search for content that addresses the user's biggest growth opportunity. The targeting step identifies the specific domain and concept — this pipeline finds the best writing on that topic. Prefer last 30 days, but older canonical content wins if it's the definitive piece.
 
-**Select 2-3 complementary pieces** that together create a richer picture than any single source. Look for: one that frames the problem, one that shows a solution or example, and optionally one that adds a surprising data point or counterargument. If only one strong piece exists, that's fine — don't pad with weak results.
+### Pipeline B: Recency-first
 
-If all agents return nothing, deliver a code-context-only observation using the strongest scan finding.
+The AI ecosystem shifts weekly. This pipeline catches tools, skills, concepts, patterns, and what other builders are doing that the user doesn't know about yet. Last 7 days preferred, 14 days max. Relevance includes broader patterns that could change how they think or work, not just direct matches to their stack.
+
+### Topic selection
+
+Pick ONE topic from across both pipelines, informed by profile.md, observations, and history.jsonl. Weigh these factors:
+
+**Leverage.** What would have the most impact given their state? Priority: product direction > tools/workflow > approach > skill gaps. Resilience is highest-order but requires established trust. Not rigid — a recency-first finding about a tool that eliminates their current project can outrank everything.
+
+**Readiness.** Are they facing this problem NOW? A prototyping project needs "validate demand before building more," not "scale your channels."
+
+**ZPD.** Match the recommendation to where they actually are. Domain levels give the rough picture; individual observations show which concepts they've mastered vs never encountered.
+
+**Variety.** Don't repeat recent topics. Don't push topics where past recommendations were ignored.
+
+**Self-efficacy.** Low confidence: lead with what's working, then the gap. High confidence: lead with the gap directly. Sometimes the highest-leverage move is reinforcement, not correction.
+
+Then find 2-3 voices or perspectives on that topic.
 
 ---
 
 ## Deliver
 
-Write one cohesive output. Target 250-400 words. The README example is the quality bar.
+One cohesive output, 250-400 words, on the single topic from Find Content.
 
-**Output principles:**
+**Structure:**
 
-1. Open with something specific from their code — earns attention
-2. Weave 2-3 sources into one narrative (don't list them separately — synthesize into a bird's-eye view)
-3. One surprising detail from a source you wouldn't get from the headline
-4. Connect every sentence to their situation
-5. Write like a sharp friend, use their name
-6. Explain who each author is in one parenthetical
-7. End with an **actionable artifact** — don't just recommend, produce something. If the recommendation involves content strategy, draft example copy/posts. If it involves code, offer to write the file. If it involves a workflow, sketch the steps with their specific project details filled in. Ask permission before executing large actions.
+1. Open with something specific from their work or sessions. Earns attention.
+2. Synthesize 2-3 voices into one narrative. Cite each source with author, who they are, and URL to build social proof.
+3. Connect every sentence to their situation.
+4. End with an actionable next step the LLM can implement with permission. Not "you should try X" but "want me to install this skill?" or "want me to set up this pattern?"
 
-**Feedforward, not correction.** Frame as what to do next, not what went wrong. "This approach breaks down when X" not "you're bad at X."
+**Voice:**
+
+Write like a sharp friend who shipped code today. Use their name. Short paragraphs, punchy sentences, curious not lecturing. "What's interesting here is..." beats "It is important to understand..."
+
+Be specific. Reference their actual projects, decisions, and words:
+
+- GOOD: "You have 8 projects in 9 months and none have a landing page."
+- BAD: "You demonstrate strong building skills but could improve distribution."
+
+Feedforward, not correction. Frame as what to do next, not what went wrong.
+
+No AI slop. Avoid: delve, crucial, robust, comprehensive, nuanced, pivotal, landscape, tapestry, foster, showcase, intricate, fundamental, significant. No em dashes. No throat-clearing, generic optimism, or unsupported claims.
 
 ---
 
@@ -110,16 +102,15 @@ After every run, silently update state.
 
 ```
 ~/.grow/
-  observations/                    # append-only, one file per domain + behavior
+  observations/                    # append-only, one file per domain
     resilience.md
-    product.md
-    ai-steering.md
-    building.md
+    product-taste.md
+    directing-ai.md
+    agent-fluency.md
+    verification.md
     distribution.md
-    security.md
     business.md
-    behavior.md
-  profile.md                       # metadata + derived patterns + readiness
+  profile.md                       # projects, workflow, patterns, readiness, motivation
   history.jsonl                    # one line per recommendation
 ```
 
@@ -128,14 +119,19 @@ After every run, silently update state.
 ```markdown
 # [Domain Name]
 
-- YYYY-MM-DD | concept | observation text | source category
+- YYYY-MM-DD | positive/negative | concept | observation text | source category
 ```
 
-Concepts are defined in domain progressions in [competency-map.md](competency-map.md). Use the exact words. Examples: `basic SEO`, `user research`, `context engineering`, `content strategy`, `persist vs. quit judgment`, `threat modeling`.
+Concepts are defined in [competency-map.md](references/competency-map.md). Use the exact concept names. Examples: `context engineering`, `web presence & SEO`.
 
-`behavior.md` uses the same format with these concepts: `prompting style`, `work cadence`, `when-stuck`, `comprehension`, `confidence`, `focus`, `energy`. Pattern inferences ("abandons at distribution stage") go in profile.md, not here.
+Source categories:
 
-Source categories: `codebase`, `CLI session`, `desktop session`, `git history`, `web profile`, `user input`
+- `codebase` — from anything in the codebase
+- `CLI session` — from Claude Code logs
+- `desktop session` — from Claude Desktop logs
+- `git history` — from anything git
+- `web profile` — from anything online
+- `user input` — from the user's direct responses to our questions only
 
 Read existing observations before appending. Only append what is new or changed.
 
@@ -144,11 +140,11 @@ Read existing observations before appending. Only append what is new or changed.
 ```markdown
 ---
 name: ""
-background: "" # engineer, PM, designer, solo founder, etc.
-trainingAge: "" # how long they've used AI coding tools
-stage: "" # "prototyping", "launched but no users yet", "two projects: one live, one early", etc.
-orientation: "" # what they're focused on right now
-crossProject: false # true if user opted in to cross-project scanning
+background: ""
+trainingAge: ""
+stage: ""
+orientation: ""
+crossProject: false
 createdAt: ""
 lastUpdated: ""
 lastRunDate: ""
@@ -158,23 +154,38 @@ urls:
   twitter: []
 ---
 
+## Projects
+
+[All projects. For each: name, one-line description, stack, stage
+(prototyping / building / launched / revenue), traction, URL if any.
+Updated each run from scan.]
+
+## Workflow & tools
+
+[Full AI stack: coding agents, IDE, MCP servers, Claude skills, AI services,
+libraries, deploy targets, test frameworks, CI/CD.
+How they work: spec-first, vibe code, parallel agents, etc.
+Communication style (directive/exploratory, terse/verbose).
+Updated each run from scan + user input.]
+
 ## Deep patterns
 
 [Patterns spanning multiple domains, projects, or time.
-Each with: evidence, domains involved, confidence, date first observed.]
+Each with: evidence, domains involved, confidence, date.
+Only include patterns that would change a recommendation.
+Internal state — no filler, no compliments.]
 
-## How they operate
+## What drives them
 
-[Prompting style, AI output handling, spec-to-code ratio,
-work patterns, when-stuck behavior, comprehension signals]
+[What they optimize for: shipping speed, craft, revenue, learning?
+How they respond to feedback — what framing lands, what they act on vs ignore.
+Inferred from sessions and updated as recommendations are acted on (or ignored).
+Sparse on first run, richer over time.]
 
 ## Readiness
 
-[Current focus, stuck point, receptivity level — updated every run]
-
-## Deferred dimensions
-
-[Learning velocity, coachability, action rate — accumulate over runs]
+[Current focus, stuck point, what just happened (shipped? pivoted? hit a wall?).
+Updated every run.]
 ```
 
 ### history.jsonl
@@ -183,12 +194,12 @@ work patterns, when-stuck behavior, comprehension signals]
 {
   "date": "...",
   "domain": "...",
-  "type": "...",          // recommendation type: Correction, Reinforcement, Introduction, or Refinement
-  "contentType": "...",   // content format: article, podcast, video, paper, thread, etc.
+  "type": "...", // recommendation type: Correction, Reinforcement, Introduction, or Refinement
+  "contentType": "...", // content format: article, podcast, video, paper, thread, etc.
   "source": "...",
   "title": "...",
   "url": "...",
   "summary": "...",
-  "actedOn": null,        // updated on subsequent scans: true if behavior changed, false if not
+  "actedOn": null, // updated on subsequent scans: true if acted on, false if not
 }
 ```

@@ -1,14 +1,14 @@
 # Onboarding
 
-First-run only. Builds the user's profile and ends with a first recommendation. Follow the following steps precisely.
+First-run only. Builds the user's profile and ends with a first recommendation. Follow these steps precisely.
 
 ## Desktop session paths
 
-- macOS: `~/Library/Application Support/Claude/local-agent-mode-sessions/`
-- Windows: `%APPDATA%/Claude/local-agent-mode-sessions/`
-- Linux: `~/.config/claude/local-agent-mode-sessions/`
+- macOS: `~/Library/Application Support/Claude/claude-code-sessions/`
+- Windows: `~/AppData/Roaming/Claude/claude-code-sessions/`
+- Linux: no Claude Desktop support
 
-Each session has `local_{id}.json` metadata and `audit.jsonl` conversation log.
+Check `local-agent-mode-sessions/` too (legacy name). Sessions are in `<accountId>/<orgId>/` subdirectories. Each has `local_{id}.json` metadata and `audit.jsonl` conversation log.
 
 ## Step 1: Setup
 
@@ -17,18 +17,26 @@ Collect via AskUserQuestion (minimum 2 options per question):
 - "What's your name?"
 - Background: engineer, PM, designer, solo founder, or something else?
 - "How long have you been using AI coding tools like Claude Code, Codex, Cursor, or Copilot?"
-- "I can look at your work across all projects on this machine for broader patterns. Everything stays local. Enable cross-project scanning?"
-- "Share any product URLs, GitHub profiles, or Twitter/X handles if you want deeper analysis. Otherwise skip."
+- "I can look at your work across all projects on this machine for broader, more insightful patterns. Everything stays local. Enable cross-project scanning?" Recommend enabling.
+- "Share any product URLs, GitHub profiles, or Twitter/X handles if you want deeper product taste and distribution analysis. Otherwise skip." Recommend sharing.
 
-Auto-detect the user's full AI and engineering stack, tools, workflow, and dev environment from the filesystem. Then ask follow-up questions to cover gaps — new tools and services emerge almost daily, so auto-detection will miss things.
+Run `bash scripts/detect-stack.sh` to auto-detect the stack. This covers OS, languages, package managers, AI tools, IDEs, Claude config, MCP servers, projects, infra, and databases in one pass.
 
 ## Step 2: Scan permissions
 
-Subagents need access to session logs and observation files. Detect the OS and ask to merge these permissions into `.claude/settings.local.json`:
+Subagents need permissions to read session logs and write observations. Detect the OS and ask to merges these permissions:
+
+**User-level:**
 
 ```
-Read(path:~/.grow/**)
-Write(path:~/.grow/**)
+Read(path:~/.devloop/**)
+Write(path:~/.devloop/**)
+Edit(path:~/.devloop/**)
+```
+
+**Project-level:**
+
+```
 Read(path:~/.claude/**)
 Bash(path:~/.claude/**)
 Glob(path:~/.claude/**)
@@ -37,30 +45,39 @@ Grep(path:~/.claude/**)
 
 Plus `Read`, `Bash`, `Glob`, `Grep` for the Desktop sessions path.
 
+Do NOT add web fetch permissions here. Those are handled after the scan and calibration are complete.
+
 ## Step 3: Scan
 
-Dispatch one Sonnet subagent per domain. Give each subagent:
+Dispatch one Sonnet subagent per domain to find evidence of competence AND gaps for each concept. Give each its domain file path from [domains/](references/domains/). We only scan past evidence once; missed observations are gone forever, so tell each subagent to be thorough and check every source. A desktop session can reveal product taste, a CLI session can reveal business thinking.
 
-- The relevant domain section from [competency-map.md](references/competency-map.md)
-- ALL scan inputs listed below. Do not predict which source has signal for which domain. A desktop or CLI session might contain rich human intent across any domain.
+**Interpretation rules:**
 
-Each subagent saves observations directly to its domain's observation file using the format in SKILL.md. Every observation must be grounded in concrete evidence. No fabrication or hypotheticals. Skip observations where the evidence is too thin to be meaningful.
+Assume all code is AI-generated. Credit what the human did and thought, not the implementation. Conversation and user input are ground truth; code artifacts alone are weak signal.
 
-Assume all code is AI-generated. Credit what the human did, not the implementation. Conversation and user input are ground truth; code artifacts alone are weak signal.
+Check authorship before crediting work. Third-party tools the user configured are evidence of Tool & Service Evaluation, not of building the tool. AI-generated artifacts and specs are evidence of Directing AI, not of the output's domain.
 
-**Scan inputs**:
+**Scan inputs:**
 
-- **CLI sessions:** `~/.claude/projects/` — session JSONL files. Each subdirectory is a project (path with `/` replaced by `-`). If cross-project scanning is disabled, scan only the current project. These are high-signal for human intent.
-
-- **Desktop sessions:** OS-specific path defined above. High-signal for human intent.
-
+- **CLI sessions:** `~/.claude/projects/` — session JSONL files. Each subdirectory is a project (path with `/` replaced by `-`). If cross-project scanning is disabled, scan only the current project.
+- **Desktop sessions:** OS-specific path defined above.
 - **Project codebases:** Discover paths from CLI session directory slugs. For each project that still exists on disk, scan git history, config files, and code.
-
 - **Web profiles (only if URLs provided):** product URLs, GitHub and Twitter/X profiles.
+
+**Recording observations:**
+
+Each subagent writes directly to its domain's observation file using the format in SKILL.md. Every observation must be grounded in concrete evidence. No fabrication or hypotheticals. ONLY return a one-line confirmation to the main agent. Do not return observation content.
+
+**Signal labels:**
+
+- **Positive**: evidence the user does something well.
+- **Negative**: evidence of a gap, absence, or inconsistency.
+- **Strong**: clearly and substantially demonstrates the signal. Consistent pattern, multiple instances, or a single instance with major impact.
+- **Weak**: incidental, low-impact, or limited to a minor or rarely-used part of their work. Single instance that could be explained away.
 
 ## Step 4: Quality filter
 
-Dispatch parallel Haiku subagents to review the observation files. For each observation, score it 1-100 on signal strength: does this reveal genuine competence or a genuine gap, or is it just "did a reasonable thing"? Remove observations scoring below 80. Merge duplicates that describe the same evidence.
+Dispatch parallel Haiku subagents to review the observation files. Each reads its file, scores observations 1-100 on informativeness (does this tell us something useful about the user's actual level, or is it noise?), removes observations scoring below 80, merges true duplicates, and writes the filtered file back. Don't filter based on the strong/weak label itself. Return only a one-line confirmation.
 
 ## Step 5: Present and calibrate
 
@@ -68,29 +85,36 @@ Read all observation files. The goal is to show the user you understand their si
 
 **1. Lead with the most striking pattern.** Surface a tension, contradiction, or cross-domain insight from the scan. Not a list of what they've done, but what it means.
 
-- GOOD: "Alex, you spec everything before touching code, and the specs are good. But you've specced 4 projects in 6 months without shipping any to users. The spec is becoming the product instead of the product."
-- BAD: "8 projects in 9 months, all convergent. Pivots deliberately based on real learning."
+**2. Show the competency map.** Rate each concept as an integer 0-5 as defined in [domains/](references/domains/). A concept rated N must meet all requirements from levels below N. If a Level 2 requirement is missing, the concept cannot score above 1 regardless of how impressive the Level 3+ evidence is. Rate "Need more data" if there's insufficient observations to rate confidently. Do not guess. Domain score (one decimal place) = average across concepts. "Need more data" counts as 0 in the average.
 
-**2. Show the competency map.** For each domain: rate using Level Definitions in [competency-map.md](references/competency-map.md), and add a detailed summary of the level ratings: what's working and what's missing, and what the next level looks like. Be direct.
+Start with the 0-5 legend so the user knows how to read the scores. Then show domain averages, then per-concept breakdowns with evidence and what the next level looks like. Be direct.
 
 ```
-Your competency map:
+0 — Unstarted
+1 — Aware: where most active AI builders start
+2 — Solid: confidently shipping AI products (the target)
+3 — Deep: nuanced judgment others wouldn't have
+4 — Leading: creates approaches others adopt
+5 — Exceptional: pushes the field forward
 
-Resilience:       1.8 — Direction (2): deliberate pivots, coherent thesis.
-                        Pace (2): ships fast but 47 parallel workstreams
-                        on a product you killed 2 days later.
-                        Persist vs Quit (2): clean kills, but no evidence
-                        of surviving a long traction drought.
-                        Builder Identity (1): tied to current project,
-                        no public identity beyond it.
+Resilience          2.0
+Product Taste       1.3
+Directing AI        1.8
+Agent Fluency       1.5
+Business            1.0
+Verification        [Need more data]
+Distribution        [Need more data]
 
-Product Taste:    1.4 — User Empathy (0): no evidence of talking to users.
-                        Value Clarity (2): precise problem framing.
-                        Design Judgment (2): intentional design system.
-                        Feature Discipline (2): deliberate cuts.
-                        PMF Judgment (1): builds before validating demand.
+Resilience (2.0)
 
-...
+  Direction (3):    Written thesis with demand signal, pivots based on evidence not
+                    emotion. Next: thesis others reference as a lens for the space.
+  Pace (2):         Manages AI sessions deliberately, accepts traction at human speed.
+                    Next: pre-planned recovery after shipping sprints.
+  ...
+
+Product Taste (1.3)
+  ...
 ```
 
 **3. Ask 0-3 questions** to fill gaps in domains or profile. Skip if signal is sufficient.
@@ -117,5 +141,4 @@ Run **Find Content**, **Deliver**, and **Save** from SKILL.md.
 ## Edge cases
 
 - **Empty project:** CLI and Desktop sessions still provide context. If no sessions exist either, step 5 questions become the primary input.
-- **User skips all questions:** Proceed with scan-only data.
 - **User quits mid-onboarding:** Save partial state after each step. Resume on next /grow run.

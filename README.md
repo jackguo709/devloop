@@ -1,103 +1,121 @@
-# grow
+<p align="center">
+  <em>You're shipping faster than ever.</em><br>
+  <em>But are you actually getting better?</em>
+</p>
 
-The growth engine for AI builders who are actively shipping.
+<p align="center">
+  <img src="https://img.shields.io/badge/Claude_Code-000?style=flat&logo=anthropic&logoColor=white" alt="Claude Code">
+  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT">
+</p>
 
-You're building faster than ever but not sure you're actually getting better. Grow scans your code, Claude conversations, and shipped product. It maps you against a competency map covering everything AI builders need, not just code, but product, distribution, security, and resilience. Then it finds the one piece of human-written content from 50+ curated sources that targets the gap holding you back most. The more you build, the sharper it gets.
+---
 
-## Example
+**Devloop** is the growth feedback loop for AI builders. It scans your code, Claude sessions, git history, and shipped products. Maps you against seven competency domains. Finds the one thing worth reading about your biggest gap.
 
-```
-$ /grow
+No feeds. No firehose. 2-3 recommendations a week, connected to your work, your stage.
 
-Hey Jack, your auth-middleware PR has been open since Tuesday.
-The agent rewrote your session handling and logout now silently
-drops the refresh token instead of invalidating it server-side.
-Your tests don't cover that path.
+## Right for you if
 
-That PR is 340 lines. How much of it did you actually read?
+- You build with AI coding tools and ship fast, but worry you're not learning from the speed
+- You've shipped something but nobody uses it, and you're not sure what to work on next
+- You feel the AI news firehose (new framework every week, tool fatigue, FOMO) but can't separate signal from noise
+- You're a solo founder or small team without a senior engineer, PM, or mentor looking over your shoulder
+- You suspect your weakest skill isn't code, it's something else, but you can't name it
 
-> honestly I skimmed it, the diff was huge
+## What Devloop is not
 
-Yeah, that's kind of the whole problem right now. Ankit Jain
-(ex-Google, founded Aviator, YC S21, used by Slack and Figma)
-wrote something on Latent Space (the biggest AI engineering
-newsletter) last month that hit the HN front page and reframes
-this really well.
-
-His argument is that trying to review faster is a dead end.
-Humans couldn't keep up with code review even when humans wrote
-code at human speed. PRs would sit for days, approvals were
-rubber stamps, and everyone skimmed 500-line diffs because they
-had their own work to ship. Now agents are 10x-ing the volume
-and it's only getting worse. A recent survey across 10,000+
-developers found that teams with high AI adoption merge 98% more
-PRs but review time is up 91%.
-
-His alternative is to flip the order. Instead of letting the
-agent code first and then trying to review a 340-line diff,
-you write a short spec first, then let the agent implement it.
-
-A spec is just a markdown file in your repo (something like
-specs/auth-middleware.md) that describes what the feature should
-do, the edge cases, and how to verify it worked. You write it
-before asking Claude or Cursor to touch any code. Then the agent
-codes to your spec instead of improvising, and you verify the
-behavior matches what you wrote instead of reading every line.
-
-In one of Ankit's experiments, a verifier agent checked 65 acceptance
-criteria from a spec in six minutes: 60 passed, 4 failed,
-1 partial. Way faster and more reliable than skimming a diff.
-
-→ latent.space/p/reviews-dead
-
-Want me to generate specs/auth-session.md? Based on your current
-code, it would cover:
-  - On logout, invalidate the refresh token server-side
-    (not just drop it client-side like it does now)
-  - Expired tokens return 401, not a silent failure
-  - Test: logout then attempt refresh, expect rejection
-
-```
-
-## Install
-
-Copy the skill into your project:
-
-```bash
-/plugin install github:jackguo709/grow
-```
-
-Then run `/grow` in Claude Code.
+- **Not a course.** No curriculum, no lessons. It shows you where to focus, not what order to learn things in.
+- **Not a code review bot.** It finds growth gaps across your skillset, not bugs in your code.
+- **Not for non-builders.** If you're stuck in tutorial hell, there's no work to scan.
 
 ## How it works
 
-1. **Scans** your project, git history, Claude sessions, and optionally your product URL and social profiles.
-2. **Asks** a reflective question grounded in what it found.
-3. **Targets** the single most impactful gap across seven competency domains, then searches 50+ sources in parallel.
-4. **Delivers** one piece that matters, connected to your code, your situation, your stage.
-5. **Adapts** how it teaches you. Beginners get specific instructions and checklists. Intermediate builders get contextual examples and named patterns. Advanced builders get decision frameworks, edge cases, and assumption challenges.
-6. **Grows** with you. Every run refines your profile. The more you use it, the sharper it gets.
+```
+  /grow ······· run 2-3 times a week
+    │
+    ▼
+  Scan ········ code, git, sessions, shipped products
+    │
+    ▼
+  Target ······ rank growth opportunities across 7 domains
+    │
+    ▼
+  Search ······ 50+ curated sources in parallel
+    │
+    ▼
+  Deliver ····· one recommendation that hits
+```
 
-First run is onboarding: a quick setup, a full scan of your work, what it found (including your biggest blind spot), a few reflective questions, and your competency map across all seven domains. Then it delivers your first recommendation on the spot.
+**Heads up: the first run triggers a full scan of your work**. This is token-heavy (especially with a large codebase or many sessions), but it only happens once. Every run after is lighter and sharper as the system learns more about you and how you respond to recommendations.
 
-## Competency Map
+## What changes
 
-Seven domains. Five levels each. Grow assesses where you are and targets the gap that matters most.
+| Without Devloop                                                        | With Devloop                                                              |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| You know AI tools are changing weekly but can't keep up with all of it | One recommendation per run, from 50+ sources, targeting your specific gap |
+| You suspect you're weak at distribution but don't know where to start  | A competency map with concrete evidence from your own code and sessions   |
+| You read HN/Twitter/newsletters and feel informed but not better       | Content connected to your project, not generic "10 tips" listicles        |
+| You have no mentor, no senior engineer reviewing your growth           | An honest assessment that shows gaps, not just what you're good at        |
+| You build another feature when you should be talking to users          | A recommendation that says so, with the specific conversation to have     |
 
-- **AI Steering** — Getting AI to do what you want, and knowing when not to use it.
-- **Building & Architecture** — Making things that work, hold together, and don't collapse.
-- **Security & Reliability** — Not getting hacked. Not losing data. Not leaking secrets.
-- **Product & Design** — Building the right thing. Taste, judgment, problem framing.
-- **Distribution & Growth** — Getting people to use what you built. Day-one concern, not afterthought.
-- **Business & Operations** — Money, legal, support, systems. The gap between MVP and sustainable business.
-- **Resilience & Direction** — Staying in the game long enough to win. Energy, pace, identity.
+## Competency map
+
+What it actually takes to build and ship AI products in 2026. Seven domains, rated 0-5 per concept, grounded in evidence from your actual work.
+
+| Domain            | What it covers                                                                                                  |
+| ----------------- | --------------------------------------------------------------------------------------------------------------- |
+| **Resilience**    | Direction, pace, persist vs. quit, builder voice                                                                |
+| **Product Taste** | User empathy, value clarity, design judgment, feature discipline, PMF judgment                                  |
+| **Directing AI**  | Prompt craft, context engineering, spec-driven development, tool & service evaluation, human-AI task allocation |
+| **Agent Fluency** | Task delegation, orchestration patterns, agent infrastructure, harness engineering, intervention judgment       |
+| **Verification**  | Testing & verification, code review, eval design, security practice, threat modeling, AI system debugging       |
+| **Distribution**  | Web presence & SEO, content strategy, channel focus, community building, growth systems                         |
+| **Business**      | Revenue design, unit economics, legal & compliance, financial management                                        |
 
 ## Sources
 
-Grow searches 50+ curated sources every run: engineering blogs (Anthropic, Stripe, Cloudflare, Vercel, Supabase), individuals (Simon Willison, Julia Evans, Paul Graham), newsletters (Pragmatic Engineer, Lenny, Latent Space, Stratechery), Hacker News (100+ points), Twitter/X (@karpathy, @simonw, @swyx, @levelsio, @emollick), research papers (arXiv via HuggingFace Papers, Semantic Scholar), YC content, GitHub trending, changelogs for your dependencies, and podcasts.
+Every run searches 50+ curated definitive sources:
 
-Only content with specifics, real experience, or production evidence makes the cut. Recent content gets priority (last 7 days preferred, last 30 days typical), but a canonical older piece that's the definitive take on your exact gap will still surface over a mediocre recent article.
+- **Engineering blogs:** Anthropic, Stripe, Cloudflare, Vercel, Supabase, Linear, Netflix
+- **Individual voices:** Simon Willison, Julia Evans, Paul Graham, Patrick McKenzie, Eugene Yan, Lilian Weng
+- **Newsletters:** Latent Space, Pragmatic Engineer, Lenny's Newsletter, One Useful Thing, First Round Review
+- **Social:** Hacker News (100+ points), Twitter/X (@karpathy, @simonw, @swyx, @levelsio)
+- **Research:** arXiv via HuggingFace Papers, Semantic Scholar
+- **Tools & releases:** GitHub Trending, Product Hunt, changelogs for your actual dependencies
+- **Podcasts & video:** Latent Space, Lightcone (YC), Fireship, Theo
+
+## Install
+
+```bash
+# In any Claude Code session
+/install github:jackguo709/devloop
+```
+
+Then run `/grow`. That's it, everything runs locally.
+
+## Commands
+
+```
+/grow              Full run: scan, target, search, deliver
+/grow me           View your profile and competency map
+/grow history      See past recommendations and what you acted on
+```
 
 ## Privacy
 
-Everything local. No account, no data sent. Only external calls are web searches and fetches for content.
+Everything stays on your machine. Your profile, observations, and history live in `~/.devloop/`. No account, no telemetry, no data sent anywhere.
+
+## Roadmap
+
+- [x] Onboarding scan across code, git, CLI sessions, desktop sessions, web profiles
+- [x] Seven-domain competency map with evidence-grounded ratings
+- [x] Curated content delivery from 50+ sources
+- [x] Profile and observation persistence across sessions
+- [ ] SessionEnd hook for background profile sync
+- [ ] Growth tracking over time (see your ratings change as you level up)
+- [ ] Team mode (map a small team's collective gaps)
+- [ ] Email delivery
+
+## License
+
+MIT

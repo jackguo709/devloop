@@ -1,9 +1,6 @@
 ---
 name: grow
-description: |
-  Your growth engine. Scans your code, conversations, and work patterns, finds the one
-  piece of content that matters most, and delivers it with a reflection question that sticks.
-  Run /grow for a recommendation. First run triggers onboarding.
+description: Your growth feedback loop. Finds the one thing worth reading right now.
 argument-hint: "[me|history]"
 disable-model-invocation: true
 allowed-tools:
@@ -21,11 +18,11 @@ allowed-tools:
 ## Context
 
 ```!
-GROW_DIR="$HOME/.grow"
-PROFILE="$GROW_DIR/profile.md"
-mkdir -p "$GROW_DIR/observations"
+DEVLOOP_DIR="$HOME/.devloop"
+PROFILE="$DEVLOOP_DIR/profile.md"
+mkdir -p "$DEVLOOP_DIR/observations"
 [ -f "$PROFILE" ] && echo "PROFILE_EXISTS=true" || echo "PROFILE_EXISTS=false"
-echo "GROW_DIR=$GROW_DIR"
+echo "DEVLOOP_DIR=$DEVLOOP_DIR"
 ```
 
 ## Routing
@@ -42,57 +39,55 @@ If `PROFILE_EXISTS=true`:
 
 ## Find Content
 
-Two parallel pipelines search for different things. Each pipeline gets 1-2 Sonnet subagents with a tight brief — what to find, where to look, and why it matters for this user. ONLY return content from sources listed in [sources.md](references/sources.md).
+ONLY use content from sources listed in [sources.md](references/sources.md). Run this entire section silently.
 
-### Pipeline A: Gap-based
+### Step 1: Target
 
-Search for content that addresses the user's biggest growth opportunity. The targeting step identifies the specific domain and concept — this pipeline finds the best writing on that topic. Prefer last 30 days, but older canonical content wins if it's the definitive piece.
+Read profile.md, observations, and history.jsonl. Identify 3-5 growth opportunities, ranked with reasoning. Don't search yet. For each:
 
-### Pipeline B: Recency-first
+- Which concept(s) it addresses
+- **Impact**: A 0-1 concept or recurring cross-domain pattern from Deep Patterns? Does fixing this unlock progress in other domains? A tool that eliminates their current approach? Generally: product direction > tools/workflow > approach > skill gaps, but not rigid. Mindset-level feedback is the most personal and requires established trust.
+- **Readiness**: Is the user bumping into this right now, or is it important in the abstract? A user mid-build may need building advice. A user who just shipped may need distribution advice.
+- **Pacing**: Repeat topics from history.jsonl only if strategic. Think twice before pushing topics where past recommendations were ignored.
 
-The AI ecosystem shifts weekly. This pipeline catches tools, skills, concepts, patterns, and what other builders are doing that the user doesn't know about yet. Last 7 days preferred, 14 days max. Relevance includes broader patterns that could change how they think or work, not just direct matches to their stack.
+### Step 2: Explore
 
-### Topic selection
+Two parallel Sonnet subagents. They explore wide and return a menu of candidates, not a committed topic:
 
-Pick ONE topic from across both pipelines, informed by profile.md, observations, and history.jsonl. Weigh these factors:
+**Opportunity explorer.** Given all ranked opportunities from Step 1, find 2-3 high-quality, up-to-date pieces from sources.md for each opportunity. Prefer canonical/definitive content. Return candidates with: source, author, URL, one-line summary, which opportunity it serves.
 
-**Leverage.** What would have the most impact given their state? Priority: product direction > tools/workflow > approach > skill gaps. Resilience is highest-order but requires established trust. Not rigid — a recency-first finding about a tool that eliminates their current project can outrank everything.
+**Recency explorer.** Search last 7-14 days across sources.md for the most important recent content in the AI builder space. Not constrained to the opportunity list. Give it the user's profile for relevance, but let it find what's new and significant independently. Return candidates with: source, author, URL, one-line summary, why it matters.
 
-**Readiness.** Are they facing this problem NOW? A prototyping project needs "validate demand before building more," not "scale your channels."
+### Step 3: Select
 
-**ZPD.** Match the recommendation to where they actually are. Domain levels give the rough picture; individual observations show which concepts they've mastered vs never encountered.
+Evaluate candidates from both explorers against the growth opportunities without bias. Be open to recency findings that challenge assumptions, introduce new ways of thinking, or significantly change productivity. Pick ONE topic by weighing impact and content quality.
 
-**Variety.** Don't repeat recent topics. Don't push topics where past recommendations were ignored.
+### Step 4: Enrich (only if needed)
 
-**Self-efficacy.** Low confidence: lead with what's working, then the gap. High confidence: lead with the gap directly. Sometimes the highest-leverage move is reinforcement, not correction.
-
-Then find 2-3 voices or perspectives on that topic.
+If the selected topic already has 2-3 strong voices, skip. If it needs depth, dispatch a Sonnet subagent to find 1-2 complementary perspectives on the locked topic.
 
 ---
 
 ## Deliver
 
-One cohesive output, 250-400 words, on the single topic from Find Content.
-
-**Structure:**
-
-1. Open with something specific from their work or sessions. Earns attention.
-2. Synthesize 2-3 voices into one narrative. Cite each source with author, who they are, and URL to build social proof.
-3. Connect every sentence to their situation.
-4. End with an actionable next step the LLM can implement with permission. Not "you should try X" but "want me to install this skill?" or "want me to set up this pattern?"
+One cohesive output, 400-700 words, on the single topic from Find Content.
 
 **Voice:**
 
-Write like a sharp friend who shipped code today. Use their name. Short paragraphs, punchy sentences, curious not lecturing. "What's interesting here is..." beats "It is important to understand..."
+Write like a friend telling you about something they read that changed how they think. Curious, not lecturing. Stories, not summaries. Reference their actual projects, decisions, and words.
 
-Be specific. Reference their actual projects, decisions, and words:
+Feedforward, not correction. Low confidence: lead with what's working, then the gap. High confidence: lead with the gap directly.
 
-- GOOD: "You have 8 projects in 9 months and none have a landing page."
-- BAD: "You demonstrate strong building skills but could improve distribution."
+**Structure:**
 
-Feedforward, not correction. Frame as what to do next, not what went wrong.
+1. Open with something specific from their work or sessions. If they've encountered the framework before, frame as application, not introduction.
+2. Let one source dominate as the main story. Others support and deepen it, not compete for equal airtime. Sources should feel like characters, not footnotes.
+3. When introducing a source, include social proof that makes a stranger trust it (who publishes it, who reads it, what makes this person worth listening to). Ground claims in numbers when available.
+4. Close with a concrete playbook that flows as narrative, not a numbered checklist. Specific enough to execute in the next hour. End on the smallest possible first action. Human action: close with it directly. LLM action: offer it.
 
-No AI slop. Avoid: delve, crucial, robust, comprehensive, nuanced, pivotal, landscape, tapestry, foster, showcase, intricate, fundamental, significant. No em dashes. No throat-clearing, generic optimism, or unsupported claims.
+**Avoid:**
+
+No em dashes. No throat-clearing, generic optimism, or unsupported claims. Banned words: delve, crucial, robust, comprehensive, nuanced, multifaceted, furthermore, moreover, additionally, pivotal, landscape, tapestry, underscore, foster, showcase, intricate, vibrant, fundamental, significant, interplay.
 
 ---
 
@@ -101,7 +96,7 @@ No AI slop. Avoid: delve, crucial, robust, comprehensive, nuanced, pivotal, land
 After every run, silently update state.
 
 ```
-~/.grow/
+~/.devloop/
   observations/                    # append-only, one file per domain
     resilience.md
     product-taste.md
@@ -119,10 +114,10 @@ After every run, silently update state.
 ```markdown
 # [Domain Name]
 
-- YYYY-MM-DD | positive/negative | concept | observation text | source category
+- YYYY-MM-DD | signal | concept | observation text | source category
 ```
 
-Concepts are defined in [competency-map.md](references/competency-map.md). Use the exact concept names. Examples: `context engineering`, `web presence & SEO`.
+The date is when the evidence happened, not when the scan ran. Signal is one of: `strong positive`, `weak positive`, `strong negative`, `weak negative`. Concepts are defined in domain files under [domains/](references/domains/). Use the exact concept names. Examples: `context engineering`, `web presence & SEO`.
 
 Source categories:
 
@@ -133,8 +128,6 @@ Source categories:
 - `web profile` — from anything online
 - `user input` — from the user's direct responses to our questions only
 
-Read existing observations before appending. Only append what is new or changed.
-
 ### profile.md
 
 ```markdown
@@ -142,12 +135,10 @@ Read existing observations before appending. Only append what is new or changed.
 name: ""
 background: ""
 trainingAge: ""
-stage: ""
-orientation: ""
+stage: "" # builder journey, one sentence (e.g. "launched first product but stuck on distribution")
 crossProject: false
 createdAt: ""
-lastUpdated: ""
-lastRunDate: ""
+lastRun: ""
 urls:
   products: []
   github: []
@@ -186,6 +177,11 @@ Sparse on first run, richer over time.]
 
 [Current focus, stuck point, what just happened (shipped? pivoted? hit a wall?).
 Updated every run.]
+
+## Competency snapshot
+
+[Stored verbatim from the most recent onboarding/run output so we can display it
+directly. Updated after each scan if there are new observations.]
 ```
 
 ### history.jsonl
@@ -194,7 +190,7 @@ Updated every run.]
 {
   "date": "...",
   "domain": "...",
-  "type": "...", // recommendation type: Correction, Reinforcement, Introduction, or Refinement
+  "type": "...", // recommendation type: correction, reinforcement, introduction, or refinement
   "contentType": "...", // content format: article, podcast, video, paper, thread, etc.
   "source": "...",
   "title": "...",

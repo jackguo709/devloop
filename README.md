@@ -90,7 +90,7 @@ Every run searches 50+ curated definitive sources:
 - **Tools & releases:** GitHub Trending, Product Hunt, changelogs for your actual dependencies
 - **Podcasts & video:** Latent Space, Lightcone (YC), Fireship, Theo
 
-## Install
+## Quick start
 
 ```bash
 # In any Claude Code session
@@ -98,12 +98,6 @@ Every run searches 50+ curated definitive sources:
 ```
 
 Then run `/grow`. That's it, everything runs locally.
-
-## Commands
-
-```
-/grow              Full run: scan, target, search, deliver
-```
 
 ## Privacy
 

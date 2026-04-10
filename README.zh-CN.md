@@ -1,8 +1,10 @@
-<div align="center"><pre>
-█▀▄ █▀▀ █ █ █   █▀█ █▀█ █▀█
-█ █ █▀▀ █ █ █   █ █ █ █ █▀▀
-▀▀  ▀▀▀  ▀  ▀▀▀ ▀▀▀ ▀▀▀ ▀  
-</pre></div>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/logo-light.svg">
+    <img src="assets/logo-dark.svg" alt="DEVLOOP" width="320">
+  </picture>
+</p>
 
 <p align="center">
   <a href="README.md">English</a> |
@@ -18,6 +20,10 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Claude_Code-000?style=flat&logo=anthropic&logoColor=white" alt="Claude Code">
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT">
+</p>
+
+<p align="center">
+  <img src="assets/terminal.svg" alt="Devloop 终端输出：能力地图与推荐" width="760">
 </p>
 
 ---

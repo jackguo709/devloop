@@ -74,7 +74,7 @@ Dispatch parallel Haiku subagents (one per domain that has new observations). Sa
 
 **Q1** is CONDITIONAL (not every run):
 
-- Ask Q1 if 3+ days since `lastRun` OR scan found evidence of a focus shift (e.g., new project detected, observations in a domain not previously active).
+- Ask Q1 if 3+ days since `lastRun` OR scan found evidence of a focus shift (e.g., new project detected, observations in a domain not previously active). If the scan did not run, the focus-shift condition is always false.
 - Q1 text: "What are you focused on right now?" via AskUserQuestion with options:
   - Building something new
   - Shipping or launching
@@ -90,8 +90,7 @@ Dispatch parallel Haiku subagents (one per domain that has new observations). Sa
   - Yes, it was helpful
   - Yes, but it wasn't relevant
   - No, haven't gotten to it
-- Update `actedOn` field based on response: "Yes, helpful" → `true`, "Yes, not relevant" → `true`, "No" → leave `null`.
-- If no `null` actedOn entries, skip Q2.
+- Update `actedOn` field based on response: "Yes, helpful" → `true`, "Yes, not relevant" → `true`, "No" → leave `null`. Write the updated value to the corresponding `history.jsonl` entry immediately.
 
 If neither Q1 nor Q2 triggers, skip questions entirely and proceed to Step 5.
 

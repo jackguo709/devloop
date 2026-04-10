@@ -1,3 +1,9 @@
+<table align="center"><tr><td><pre>
+█▀▄ █▀▀ █ █ █   █▀█ █▀█ █▀█
+█ █ █▀▀ █ █ █   █ █ █ █ █▀▀
+▀▀  ▀▀▀  ▀  ▀▀▀ ▀▀▀ ▀▀▀ ▀
+</pre></td></tr></table>
+
 <p align="center">
   <em>You're shipping faster than ever.</em><br>
   <em>But are you actually getting better?</em>

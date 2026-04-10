@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="584" viewBox="0 0 860 584">
+  <!-- Terminal window -->
+  <rect width="860" height="584" rx="10" fill="#1e1e2e" stroke="#2a2b3d" stroke-width="0.5"/>
+
+  <!-- Title bar -->
+  <rect width="860" height="38" rx="10" fill="#181825"/>
+  <rect y="28" width="860" height="10" fill="#181825"/>
+
+  <!-- Traffic lights -->
+  <circle cx="24" cy="19" r="6" fill="#ff5f57"/>
+  <circle cx="44" cy="19" r="6" fill="#febc2e"/>
+  <circle cx="64" cy="19" r="6" fill="#28c840"/>
+
+  <!-- Window title -->
+  <text x="430" y="24" text-anchor="middle" font-family="monospace" font-size="12" fill="#6c7086">Claude Code</text>
+
+  <!-- Terminal content -->
+  <g transform="translate(28, 58)" font-family="'SFMono-Regular', 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13">
+
+    <!-- User input -->
+    <text y="0" fill="#a6e3a1">&gt; /grow</text>
+
+    <!-- Top border -->
+    <text y="26" fill="#585b70">╔═════════════════════════════════════════════════════════════════════════════════╗</text>
+
+    <!-- Subtitle -->
+    <text y="50" fill="#6c7086"><tspan x="23">Feedback #1 · April 9, 2026</tspan></text>
+
+    <!-- Mid border -->
+    <text y="76" fill="#585b70">╠═════════════════════════════════════════════════════════════════════════════════╣</text>
+
+    <!-- COMPETENCY MAP -->
+    <text y="106" fill="#cba6f7"><tspan x="23">COMPETENCY MAP</tspan></text>
+
+    <!-- Scale (single line) -->
+    <text y="132" fill="#585b70"><tspan x="23">0 Unstarted · 1 Aware · 2 Solid · 3 Deep · 4 Leading · 5 Exceptional</tspan></text>
+
+    <!-- Progress bars (bars at x=148, scores at x=304) -->
+    <text y="158"><tspan x="23" fill="#cdd6f4">Resilience</tspan><tspan x="148" fill="#a6e3a1">████████████</tspan><tspan fill="#45475a">░░░░░░</tspan><tspan x="304" fill="#f9e2af">3.2</tspan></text>
+    <text y="174"><tspan x="23" fill="#cdd6f4">Product Taste</tspan><tspan x="148" fill="#a6e3a1">██████████</tspan><tspan fill="#45475a">░░░░░░░░</tspan><tspan x="304" fill="#f9e2af">2.8</tspan></text>
+    <text y="190"><tspan x="23" fill="#cdd6f4">Directing AI</tspan><tspan x="148" fill="#a6e3a1">████████████████</tspan><tspan fill="#45475a">░░</tspan><tspan x="304" fill="#f9e2af">4.5</tspan></text>
+    <text y="206"><tspan x="23" fill="#cdd6f4">Agent Fluency</tspan><tspan x="148" fill="#a6e3a1">██████████████</tspan><tspan fill="#45475a">░░░░</tspan><tspan x="304" fill="#f9e2af">3.8</tspan></text>
+    <text y="222"><tspan x="23" fill="#cdd6f4">Verification</tspan><tspan x="148" fill="#a6e3a1">█████████</tspan><tspan fill="#45475a">░░░░░░░░░</tspan><tspan x="304" fill="#f9e2af">2.5</tspan></text>
+    <text y="238"><tspan x="23" fill="#cdd6f4">Distribution</tspan><tspan x="148" fill="#a6e3a1">███████</tspan><tspan fill="#45475a">░░░░░░░░░░░</tspan><tspan x="304" fill="#f9e2af">2.0</tspan></text>
+    <text y="254"><tspan x="23" fill="#cdd6f4">Business</tspan><tspan x="148" fill="#a6e3a1">██████</tspan><tspan fill="#45475a">░░░░░░░░░░░░</tspan><tspan x="304" fill="#f9e2af">1.8</tspan></text>
+
+    <!-- DISTRIBUTION breakdown -->
+    <text y="284" fill="#cba6f7"><tspan x="23">DISTRIBUTION (2.0)</tspan></text>
+
+    <!-- Web Presence -->
+    <text y="310"><tspan x="23" fill="#cdd6f4">Web Presence (3)</tspan><tspan x="195" fill="#a6adc8">nimbus.dev landing page converts at 4%. Shows up for</tspan></text>
+    <text y="326"><tspan x="195" fill="#a6adc8">"AI cloud cost optimizer". Next: build programmatic</tspan></text>
+    <text y="342"><tspan x="195" fill="#a6adc8">pages per provider to capture long-tail search traffic.</tspan></text>
+
+    <!-- Community -->
+    <text y="366"><tspan x="23" fill="#cdd6f4">Community (1)</tspan><tspan x="195" fill="#a6adc8">218 users signed up but no one's talking. No feedback</tspan></text>
+    <text y="382"><tspan x="195" fill="#a6adc8">loop, no design partners. Next: DM your 5 most active</tspan></text>
+    <text y="398"><tspan x="195" fill="#a6adc8">users. Ask what they'd break if you disappeared.</tspan></text>
+
+    <!-- Growth Systems -->
+    <text y="422"><tspan x="23" fill="#cdd6f4">Growth Systems (2)</tspan><tspan x="195" fill="#a6adc8">Organic search brings ~12 signups/week. Steady but no</tspan></text>
+    <text y="438"><tspan x="195" fill="#a6adc8">compounding loops yet. Next: add in-app referrals</tspan></text>
+    <text y="454"><tspan x="195" fill="#a6adc8">("invite your team") and start tracking LTV:CAC.</tspan></text>
+
+    <text y="480" fill="#585b70"><tspan x="23">...</tspan></text>
+
+    <!-- Bottom border -->
+    <text y="508" fill="#585b70">╚═════════════════════════════════════════════════════════════════════════════════╝</text>
+
+  </g>
+</svg>

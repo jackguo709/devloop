@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 290 58">
+  <g font-family="'SFMono-Regular', 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#24292f">
+    <text y="16"><tspan>█▀▄ █▀▀ █ █ █</tspan><tspan opacity="0">███</tspan><tspan>█▀█ █▀█ █▀█</tspan></text>
+    <text y="34"><tspan>█ █ █▀▀ █ █ █</tspan><tspan opacity="0">███</tspan><tspan>█ █ █ █ █▀▀</tspan></text>
+    <text y="52"><tspan>▀▀</tspan><tspan opacity="0">██</tspan><tspan>▀▀▀</tspan><tspan opacity="0">██</tspan><tspan>▀</tspan><tspan opacity="0">██</tspan><tspan>▀▀▀ ▀▀▀ ▀▀▀ ▀</tspan><tspan opacity="0">██</tspan></text>
+  </g>
+</svg>

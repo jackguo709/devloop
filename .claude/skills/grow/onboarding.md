@@ -138,6 +138,9 @@ Product Taste (1.3)
 
 Run **Find Content**, **Deliver**, and **Save** from SKILL.md.
 
+Set `lastRun` in profile.md frontmatter to the current ISO 8601 datetime.
+Set `runCount` in profile.md frontmatter to `1`.
+
 ## Edge cases
 
 - **Empty project:** CLI and Desktop sessions still provide context. If no sessions exist either, step 5 questions become the primary input.

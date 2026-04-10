@@ -106,7 +106,32 @@ Read [visual-identity.md](references/visual-identity.md) and format the entire o
 - `youtube-transcript` — get video transcripts
   `claude mcp add -s user youtube-transcript -- npx -y @kimtaeyoon83/mcp-server-youtube-transcript`
 
-## Step 7: First recommendation
+## Step 7: Session notifications
+
+"Want a heads-up when your next /grow is ready? I'll add a small startup check so you see a reminder when it's time, instead of having to remember." Recommend enabling.
+
+If enabled:
+
+1. Create `~/.devloop/scripts/` directory if it doesn't exist.
+2. Copy `scripts/check-grow-ready.sh` to `~/.devloop/scripts/check-grow-ready.sh`. Make it executable with `chmod +x`.
+3. Read `~/.claude/settings.json`. Merge the following entry into `hooks.SessionStart` (create the key path if it doesn't exist). Preserve all existing settings and hooks:
+
+    ```json
+    {
+      "matcher": "startup",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash ~/.devloop/scripts/check-grow-ready.sh",
+          "timeout": 5
+        }
+      ]
+    }
+    ```
+
+If declined, skip. The cooldown still works (enforced in SKILL.md), the user just won't get the session reminder.
+
+## Step 8: First recommendation
 
 Run **Find Content**, **Deliver**, and **Save** from SKILL.md.
 

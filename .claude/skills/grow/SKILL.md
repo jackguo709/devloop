@@ -23,6 +23,11 @@ PROFILE="$DEVLOOP_DIR/profile.md"
 mkdir -p "$DEVLOOP_DIR/observations"
 [ -f "$PROFILE" ] && echo "PROFILE_EXISTS=true" || echo "PROFILE_EXISTS=false"
 echo "DEVLOOP_DIR=$DEVLOOP_DIR"
+if [ -f "$HOME/.devloop/scripts/check-grow-ready.sh" ]; then
+  bash "$HOME/.devloop/scripts/check-grow-ready.sh" --context 2>/dev/null
+else
+  echo "GROW_AVAILABLE=true"
+fi
 ```
 
 ## Routing
@@ -31,7 +36,9 @@ If `PROFILE_EXISTS=false`, read [onboarding.md](onboarding.md) and follow its in
 
 If `PROFILE_EXISTS=true`:
 
-- No arguments or empty `$ARGUMENTS` → read [run.md](run.md) and follow its instructions
+- No arguments or empty `$ARGUMENTS`:
+  - If `GROW_AVAILABLE=false`: respond with the value of `COOLDOWN_MSG` as plain text and stop. Do not read any other files.
+  - Otherwise → read [run.md](run.md) and follow its instructions
 - `$ARGUMENTS` = "me" → read [me.md](me.md) and follow its instructions
 - `$ARGUMENTS` = "history" → read [history.md](history.md) and follow its instructions
 

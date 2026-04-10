@@ -87,35 +87,7 @@ Read all observation files. The goal is to show the user you understand their si
 
 **2. Show the competency map.** Rate each concept as an integer 0-5 as defined in [domains/](references/domains/). A concept rated N must meet all requirements from levels below N. If a Level 2 requirement is missing, the concept cannot score above 1 regardless of how impressive the Level 3+ evidence is. Rate "Need more data" if there's insufficient observations to rate confidently. Do not guess. Domain score (one decimal place) = average across concepts. "Need more data" counts as 0 in the average.
 
-Start with the 0-5 legend so the user knows how to read the scores. Then show domain averages, then per-concept breakdowns with evidence and what the next level looks like. Be direct.
-
-```
-0 — Unstarted
-1 — Aware: where most active AI builders start
-2 — Solid: confidently shipping AI products (the target)
-3 — Deep: nuanced judgment others wouldn't have
-4 — Leading: creates approaches others adopt
-5 — Exceptional: pushes the field forward
-
-Resilience          2.0
-Product Taste       1.3
-Directing AI        1.8
-Agent Fluency       1.5
-Business            1.0
-Verification        [Need more data]
-Distribution        [Need more data]
-
-Resilience (2.0)
-
-  Direction (3):    Written thesis with demand signal, pivots based on evidence not
-                    emotion. Next: thesis others reference as a lens for the space.
-  Pace (2):         Manages AI sessions deliberately, accepts traction at human speed.
-                    Next: pre-planned recovery after shipping sprints.
-  ...
-
-Product Taste (1.3)
-  ...
-```
+Read [visual-identity.md](references/visual-identity.md) and format the entire output using the Competency Map template. Be direct.
 
 **3. Ask 0-3 questions** to fill gaps in domains or profile. Skip if signal is sufficient.
 

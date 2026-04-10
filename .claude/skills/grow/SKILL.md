@@ -70,7 +70,7 @@ If the selected topic already has 2-3 strong voices, skip. If it needs depth, di
 
 ## Deliver
 
-One cohesive output, 400-700 words, on the single topic from Find Content.
+Read [visual-identity.md](references/visual-identity.md) and format the output using the Recommendation template. One cohesive output, 400-700 words, on the single topic from Find Content.
 
 **Voice:**
 

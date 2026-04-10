@@ -40,7 +40,7 @@ if [ -f "$HISTORY" ]; then
         || date -d "7 days ago" +%Y-%m-%d 2>/dev/null)
   WEEK_RUNS=0
   while IFS= read -r line; do
-    d=$(echo "$line" | grep -o '"date":"[^"]*"' | head -1 | cut -d'"' -f4 | cut -dT -f1)
+    d=$(echo "$line" | grep -o '"date"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | cut -d'"' -f4 | cut -dT -f1)
     [ -n "$d" ] && [[ ! "$d" < "$CUTOFF" ]] && WEEK_RUNS=$((WEEK_RUNS + 1))
   done < "$HISTORY"
   if [ "$WEEK_RUNS" -ge 3 ]; then

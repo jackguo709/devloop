@@ -103,8 +103,6 @@ Then run `/grow`. That's it, everything runs locally.
 
 ```
 /grow              Full run: scan, target, search, deliver
-/grow me           View your profile and competency map
-/grow history      See past recommendations and what you acted on
 ```
 
 ## Privacy

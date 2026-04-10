@@ -29,7 +29,7 @@
 
 ---
 
-**Devloop** is the growth feedback loop for AI builders. It scans your code, Claude sessions, git history, and shipped products. Maps you against seven competency domains. Finds the one thing worth reading about your biggest gap.
+**Devloop** is the personal feedback loop that helps AI builders grow. It scans your code, Claude sessions, git history, and shipped products. Maps you across 7 competency domains. Searches 50+ definitive sources to find the one thing worth reading about your biggest gap.
 
 No feeds. No firehose. 2-3 recommendations a week, connected to your work, your stage.
 
@@ -44,6 +44,7 @@ No feeds. No firehose. 2-3 recommendations a week, connected to your work, your 
 ## What Devloop is not
 
 - **Not a course.** No curriculum, no lessons. It shows you where to focus, not what order to learn things in.
+- **Not a newsletter.** Each pick is shaped by your own work, not broadcast to a list.
 - **Not a code review bot.** It finds growth gaps across your skillset, not bugs in your code.
 - **Not for non-builders.** If you're stuck in tutorial hell, there's no work to scan.
 

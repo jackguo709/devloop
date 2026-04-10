@@ -1,6 +1,6 @@
 ---
 name: grow
-description: Your growth feedback loop. Finds the one thing worth reading right now.
+description: Your personal feedback loop for growing as a builder. Finds the one thing worth reading right now.
 argument-hint: "[me|history]"
 disable-model-invocation: true
 allowed-tools:

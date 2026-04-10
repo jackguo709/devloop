@@ -14,7 +14,7 @@
 
 <p align="center">
   <em>Cada vez programas más rápido.</em><br>
-  <em>Pero... ¿estás creciendo como desarrollador?</em>
+  <em>Pero ¿estás mejorando de verdad?</em>
 </p>
 
 <p align="center">
@@ -28,7 +28,7 @@
 
 ---
 
-**Devloop** es tu loop de crecimiento como builder de IA. Analiza tu código, tus sesiones de Claude, tu historial de git y lo que ya lanzaste. Te ubica en siete áreas de competencia y te encuentra el mejor contenido para atacar tu punto más débil.
+**Devloop** es tu loop de feedback personal para crecer como builder de IA. Analiza tu código, tus sesiones de Claude, tu historial de git y lo que ya tienes en producción. Te ubica en 7 áreas de competencia y busca en 50+ fuentes de referencia el mejor contenido para atacar tu punto más débil.
 
 Nada de feeds infinitos. 2-3 recomendaciones por semana, conectadas a lo que estás haciendo y dónde estás parado.
 
@@ -43,6 +43,7 @@ Nada de feeds infinitos. 2-3 recomendaciones por semana, conectadas a lo que est
 ## Lo que Devloop NO es
 
 - **No es un curso.** No hay temario ni lecciones. Te dice dónde poner atención, no cómo estudiar.
+- **No es un newsletter.** Cada recomendación se arma a partir de tu trabajo, no es un broadcast a una lista.
 - **No es un bot de code review.** Busca huecos en tus habilidades, no bugs en tu código.
 - **No es para quien no ha empezado a construir.** Si todavía estás pegado con tutoriales, no hay trabajo que analizar.
 

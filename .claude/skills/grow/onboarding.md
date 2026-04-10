@@ -18,7 +18,7 @@ Collect via AskUserQuestion (minimum 2 options per question):
 - Background: engineer, PM, designer, solo founder, or something else?
 - "How long have you been using AI coding tools like Claude Code, Codex, Cursor, or Copilot?"
 - "I can look at your work across all projects on this machine for broader, more insightful patterns. Everything stays local. Enable cross-project scanning?" Recommend enabling.
-- "Share any product URLs, GitHub profiles, or Twitter/X handles if you want deeper product taste and distribution analysis. Otherwise skip." Recommend sharing.
+- "Share your product URLs, GitHub profiles, or Twitter/X handles if you want deeper product taste and distribution analysis. Otherwise skip." Recommend sharing.
 
 Run `bash scripts/detect-stack.sh` to auto-detect the stack. This covers OS, languages, package managers, AI tools, IDEs, Claude config, MCP servers, projects, infra, and databases in one pass.
 
@@ -111,18 +111,18 @@ If enabled:
 2. Copy `scripts/check-grow-ready.sh` to `~/.devloop/scripts/check-grow-ready.sh`. Make it executable with `chmod +x`.
 3. Read `~/.claude/settings.json`. Merge the following entry into `hooks.SessionStart` (create the key path if it doesn't exist). Preserve all existing settings and hooks:
 
-    ```json
-    {
-      "matcher": "startup",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "bash ~/.devloop/scripts/check-grow-ready.sh",
-          "timeout": 5
-        }
-      ]
-    }
-    ```
+   ```json
+   {
+     "matcher": "startup",
+     "hooks": [
+       {
+         "type": "command",
+         "command": "bash ~/.devloop/scripts/check-grow-ready.sh",
+         "timeout": 5
+       }
+     ]
+   }
+   ```
 
 If declined, skip. The cooldown still works (enforced in SKILL.md), the user just won't get the session reminder.
 

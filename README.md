@@ -82,19 +82,19 @@ No feeds. No firehose. 2-3 recommendations a week, connected to your work, your 
 
 What it actually takes to build and ship AI products in 2026. Seven domains, rated 0-5 per concept, grounded in evidence from your actual work.
 
-| Domain            | What it covers                                                                                                  |
-| ----------------- | --------------------------------------------------------------------------------------------------------------- |
-| **Resilience**    | Direction, pace, persist vs. quit, builder voice                                                                |
-| **Product Taste** | User empathy, value clarity, design judgment, feature discipline, PMF judgment                                  |
-| **Directing AI**  | Prompt craft, context engineering, spec-driven development, tool & service evaluation, human-AI task allocation |
-| **Agent Fluency** | Task delegation, orchestration patterns, agent infrastructure, harness engineering, intervention judgment       |
-| **Verification**  | Testing & verification, code review, eval design, security practice, threat modeling, AI system debugging       |
-| **Distribution**  | Web presence & SEO, content strategy, channel focus, community building, growth systems                         |
-| **Business**      | Revenue design, unit economics, legal & compliance, financial management                                        |
+| Domain | What it covers |
+| --- | --- |
+| [**Resilience**](.claude/skills/grow/references/domains/resilience.md) | Direction, pace, persist vs. quit, builder voice |
+| [**Product Taste**](.claude/skills/grow/references/domains/product-taste.md) | User empathy, value clarity, design judgment, feature discipline, PMF judgment |
+| [**Directing AI**](.claude/skills/grow/references/domains/directing-ai.md) | Prompt craft, context engineering, spec-driven development, tool & service evaluation, human-AI task allocation |
+| [**Agent Fluency**](.claude/skills/grow/references/domains/agent-fluency.md) | Task delegation, orchestration patterns, agent infrastructure, harness engineering, intervention judgment |
+| [**Verification**](.claude/skills/grow/references/domains/verification.md) | Testing & verification, code review, eval design, security practice, threat modeling, AI system debugging |
+| [**Distribution**](.claude/skills/grow/references/domains/distribution.md) | Web presence & SEO, content strategy, channel focus, community building, growth systems |
+| [**Business**](.claude/skills/grow/references/domains/business.md) | Revenue design, unit economics, legal & compliance, financial management |
 
 ## Sources
 
-Every run searches 50+ curated definitive sources:
+Every run searches [50+ curated definitive sources](.claude/skills/grow/references/sources.md):
 
 - **Engineering blogs:** Anthropic, Stripe, Cloudflare, Vercel, Supabase, Linear, Netflix
 - **Individual voices:** Simon Willison, Julia Evans, Paul Graham, Patrick McKenzie, Eugene Yan, Lilian Weng

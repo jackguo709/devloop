@@ -81,19 +81,19 @@
 
 2026 年做 AI 产品到底需要什么能力。七个维度，每个概念 0-5 分，打分依据是你真实的工作产出。
 
-| 维度           | 包括什么                                                          |
-| -------------- | ----------------------------------------------------------------- |
-| **韧性**       | 方向感、节奏把控、该坚持还是该转向、表达能力                      |
-| **产品感**     | 用户共情、价值判断、设计品味、做减法的能力、PMF 嗅觉              |
-| **驾驭 AI**    | prompt 技巧、上下文工程、spec 驱动开发、工具选型、人机分工        |
-| **Agent 能力** | 任务拆分与委派、编排模式、Agent 基础设施、harness 工程、介入时机  |
-| **质量把控**   | 测试验证、code review、eval 设计、安全意识、威胁建模、AI 系统调试 |
-| **增长分发**   | SEO 与线上存在、内容策略、渠道选择、社区运营、增长机制            |
-| **商业能力**   | 变现设计、单位经济、合规法务、财务管理                            |
+| 维度 | 包括什么 |
+| --- | --- |
+| [**韧性**](.claude/skills/grow/references/domains/resilience.md) | 方向感、节奏把控、该坚持还是该转向、表达能力 |
+| [**产品感**](.claude/skills/grow/references/domains/product-taste.md) | 用户共情、价值判断、设计品味、做减法的能力、PMF 嗅觉 |
+| [**驾驭 AI**](.claude/skills/grow/references/domains/directing-ai.md) | prompt 技巧、上下文工程、spec 驱动开发、工具选型、人机分工 |
+| [**Agent 能力**](.claude/skills/grow/references/domains/agent-fluency.md) | 任务拆分与委派、编排模式、Agent 基础设施、harness 工程、介入时机 |
+| [**质量把控**](.claude/skills/grow/references/domains/verification.md) | 测试验证、code review、eval 设计、安全意识、威胁建模、AI 系统调试 |
+| [**增长分发**](.claude/skills/grow/references/domains/distribution.md) | SEO 与线上存在、内容策略、渠道选择、社区运营、增长机制 |
+| [**商业能力**](.claude/skills/grow/references/domains/business.md) | 变现设计、单位经济、合规法务、财务管理 |
 
 ## 信息源
 
-每次运行从 50+ 个精选信源中搜索：
+每次运行从 [50+ 个精选信源](.claude/skills/grow/references/sources.md) 中搜索：
 
 - **工程博客：** Anthropic, Stripe, Cloudflare, Vercel, Supabase, Linear, Netflix
 - **独立博主：** Simon Willison, Julia Evans, Paul Graham, Patrick McKenzie, Eugene Yan, Lilian Weng

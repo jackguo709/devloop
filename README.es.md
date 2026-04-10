@@ -81,19 +81,19 @@ Nada de feeds infinitos. 2-3 recomendaciones por semana, conectadas a lo que est
 
 Lo que de verdad necesitas para construir y lanzar productos de IA en 2026. Siete áreas, cada concepto de 0 a 5, basado en evidencia de tu trabajo real.
 
-| Área                    | Qué cubre                                                                                                      |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------- |
-| **Resiliencia**         | Rumbo, ritmo, saber cuándo insistir y cuándo pivotar, voz propia                                               |
-| **Ojo de producto**     | Empatía con el usuario, claridad de valor, criterio de diseño, saber decir que no a features, sentido de PMF   |
-| **Manejar IA**          | Prompting, ingeniería de contexto, desarrollo guiado por specs, evaluar herramientas, dividir tareas humano-IA |
-| **Soltura con agentes** | Delegar tareas, patrones de orquestación, infra de agentes, harness engineering, saber cuándo intervenir       |
-| **Verificación**        | Testing, code review, diseño de evals, seguridad, threat modeling, debugging de sistemas de IA                 |
-| **Distribución**        | Presencia web y SEO, estrategia de contenido, elección de canales, comunidad, motores de crecimiento           |
-| **Negocio**             | Modelo de ingresos, unit economics, temas legales, gestión financiera                                          |
+| Área | Qué cubre |
+| --- | --- |
+| [**Resiliencia**](.claude/skills/grow/references/domains/resilience.md) | Rumbo, ritmo, saber cuándo insistir y cuándo pivotar, voz propia |
+| [**Ojo de producto**](.claude/skills/grow/references/domains/product-taste.md) | Empatía con el usuario, claridad de valor, criterio de diseño, saber decir que no a features, sentido de PMF |
+| [**Manejar IA**](.claude/skills/grow/references/domains/directing-ai.md) | Prompting, ingeniería de contexto, desarrollo guiado por specs, evaluar herramientas, dividir tareas humano-IA |
+| [**Soltura con agentes**](.claude/skills/grow/references/domains/agent-fluency.md) | Delegar tareas, patrones de orquestación, infra de agentes, harness engineering, saber cuándo intervenir |
+| [**Verificación**](.claude/skills/grow/references/domains/verification.md) | Testing, code review, diseño de evals, seguridad, threat modeling, debugging de sistemas de IA |
+| [**Distribución**](.claude/skills/grow/references/domains/distribution.md) | Presencia web y SEO, estrategia de contenido, elección de canales, comunidad, motores de crecimiento |
+| [**Negocio**](.claude/skills/grow/references/domains/business.md) | Modelo de ingresos, unit economics, temas legales, gestión financiera |
 
 ## Fuentes
 
-Cada ejecución busca en más de 50 fuentes curadas:
+Cada ejecución busca en [más de 50 fuentes curadas](.claude/skills/grow/references/sources.md):
 
 - **Blogs de ingeniería:** Anthropic, Stripe, Cloudflare, Vercel, Supabase, Linear, Netflix
 - **Voces independientes:** Simon Willison, Julia Evans, Paul Graham, Patrick McKenzie, Eugene Yan, Lilian Weng

@@ -12,7 +12,7 @@
 
 <p align="center">
   <em>代码写得越来越快了。</em><br>
-  <em>但你自己呢，有在成长吗？</em>
+  <em>但你有在成长吗？</em>
 </p>
 
 <p align="center">

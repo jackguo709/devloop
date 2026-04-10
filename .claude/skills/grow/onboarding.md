@@ -24,28 +24,23 @@ Run `bash scripts/detect-stack.sh` to auto-detect the stack. This covers OS, lan
 
 ## Step 2: Scan permissions
 
-Subagents need permissions to read session logs and write observations. Detect the OS and ask to merges these permissions:
+Subagents need permissions to read session logs and write observations. Merge the following entries into `.claude/settings.local.json`. Ask the user to confirm before writing.
 
-**User-level:**
+**Permissions to add:**
 
 ```
 Read(path:~/.devloop/**)
 Write(path:~/.devloop/**)
 Edit(path:~/.devloop/**)
-```
-
-**Project-level:**
-
-```
 Read(path:~/.claude/**)
 Bash(path:~/.claude/**)
 Glob(path:~/.claude/**)
 Grep(path:~/.claude/**)
 ```
 
-Plus `Read`, `Bash`, `Glob`, `Grep` for the Desktop sessions path.
+Plus `Read`, `Bash`, `Glob`, `Grep` for the Desktop sessions path (OS-dependent, from the paths listed at the top of this file).
 
-Do NOT add web fetch permissions here. Those are handled after the scan and calibration are complete.
+Do NOT add WebFetch permissions here. Those are handled after the scan and calibration are complete.
 
 ## Step 3: Scan
 

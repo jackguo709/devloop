@@ -1,8 +1,6 @@
 {
   "permissions": {
     "allow": [
-      "Edit(path:~/.devloop/**)",
-      "Write(path:~/.devloop/**)",
       "WebSearch",
       "WebFetch(domain:anthropic.com)",
       "WebFetch(domain:docs.anthropic.com)",
